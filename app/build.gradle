@@ -12,7 +12,7 @@ android {
         targetSdk 31
         versionCode 1
         versionName "1.0"
-        buildConfigField("String", "BASE_URL", "\"http://mobcategories.s3-website-eu-west-1.amazonaws.com/\"")
+        buildConfigField("String", "BASE_URL", "\"http://mobcategories.s3-website-eu-west-1.amazonaws.com\"")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

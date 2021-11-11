@@ -6,18 +6,17 @@ import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.masi.mobiquityassessment.R
+import com.masi.mobiquityassessment.adapters.ProductsAdapter
 import com.masi.mobiquityassessment.data.responses.Status
 import com.masi.mobiquityassessment.databinding.FragmentListBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ListFragment @Inject constructor() : Fragment(R.layout.fragment_list){
-
-    lateinit var viewModel: ListViewModel
+class ListFragment @Inject constructor(val productsAdapter: ProductsAdapter, var viewModel: ListViewModel? = null) : Fragment(R.layout.fragment_list){
 
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
@@ -35,7 +34,8 @@ class ListFragment @Inject constructor() : Fragment(R.layout.fragment_list){
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(ListViewModel::class.java)
         subscribeToObservers()
-        viewModel.getProducts()
+        setupRecyclerView()
+        viewModel?.getProducts()
     }
 
     private fun subscribeToObservers() {
@@ -43,8 +43,7 @@ class ListFragment @Inject constructor() : Fragment(R.layout.fragment_list){
             it?.getContentIfNotHandled()?.let { result ->
                 when (result.status) {
                     Status.SUCCESS -> {
-
-                        Toast.makeText(context, "Size: "+result.data?.size, Toast.LENGTH_SHORT).show()
+                        result.data?.let { productList -> productsAdapter.submitList(productList) }
                         binding.progressBar.visibility = View.GONE
                     }
                     Status.ERROR -> {
@@ -60,6 +59,13 @@ class ListFragment @Inject constructor() : Fragment(R.layout.fragment_list){
                     }
                 }
             }
+        }
+    }
+
+    private fun setupRecyclerView() {
+        binding.listRecyclerView.apply {
+            adapter = productsAdapter
+            layoutManager = LinearLayoutManager(requireContext())
         }
     }
 }
