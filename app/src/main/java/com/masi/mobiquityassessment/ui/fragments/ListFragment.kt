@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.masi.mobiquityassessment.R
@@ -60,12 +63,29 @@ class ListFragment @Inject constructor(val productsAdapter: ProductsAdapter, var
                 }
             }
         }
+
+        viewModel?.selectedProduct?.observe(viewLifecycleOwner){
+            if(it.id != 0 && !it.name.isNullOrBlank()) {
+                navigateToDetailFragment()
+            }
+        }
     }
 
     private fun setupRecyclerView() {
         binding.listRecyclerView.apply {
+            //productsAdapte
+            //productsAdapter.setOnItemClickListener {
+            //    Toast.makeText(context, it.name, Toast.LENGTH_SHORT).show()
+            //viewModel?.selectedProduct.value = it
+            //}
             adapter = productsAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
+    }
+
+    private fun navigateToDetailFragment() {
+        val navHostFragment =
+            activity?.supportFragmentManager?.findFragmentById(R.id.navHostFragment) as NavHostFragment
+        navHostFragment.navController.navigate(R.id.action_listFragment_to_detailFragment)
     }
 }

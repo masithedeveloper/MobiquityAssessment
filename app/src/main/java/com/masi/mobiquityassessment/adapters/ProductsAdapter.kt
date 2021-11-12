@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.masi.mobiquityassessment.data.responses.ProductSalesReponse
+import com.masi.mobiquityassessment.data.responses.Products
 import com.masi.mobiquityassessment.databinding.ParentRecyclerViewBinding
 import javax.inject.Inject
 
@@ -23,7 +24,6 @@ class ProductsAdapter @Inject constructor(private val glide: RequestManager) : R
 
     override fun onBindViewHolder(holder: ProductsAdapter.MyViewHolder, position: Int) {
        holder.viewDataBinding.section.text= products[position].name
-
         holder.viewDataBinding.childRecyclerView.apply {
             adapter = ChildAdapter(products[position].products, glide)
         }

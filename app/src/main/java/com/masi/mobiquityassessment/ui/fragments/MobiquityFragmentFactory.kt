@@ -12,6 +12,7 @@ class MobiquityFragmentFactory @Inject constructor(
     override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
         return when (className) {
             ListFragment::class.java.name -> ListFragment(productsAdapter)
+            DetailFragment::class.java.name -> DetailFragment()
             else -> super.instantiate(classLoader, className)
         }
     }

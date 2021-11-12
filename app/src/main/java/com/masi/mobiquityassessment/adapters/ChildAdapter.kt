@@ -23,12 +23,17 @@ class ChildAdapter @Inject constructor(private val list: List<Products>, private
     }
 
     override fun onBindViewHolder(holder: ChildAdapter.MyViewHolder, position: Int) {
-
         holder.viewDataBinding.apply {
             productName.text = list[position].name
             loadImageThumb(ivThumb, list[position].url)
         }
-
+        holder.itemView.apply {
+            setOnItemClickListener {
+                onItemClickListener?.let { click ->
+                    click(list[position])
+                }
+            }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -39,5 +44,11 @@ class ChildAdapter @Inject constructor(private val list: List<Products>, private
         productImageUrl?.let { url ->
             glide.load(BuildConfig.BASE_URL+url)?.into(ivThumb)
         }
+    }
+
+    private var onItemClickListener: ((Products) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (Products) -> Unit) {
+        onItemClickListener = listener
     }
 }
