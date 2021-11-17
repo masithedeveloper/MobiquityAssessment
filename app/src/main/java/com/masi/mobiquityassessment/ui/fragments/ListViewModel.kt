@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.masi.mobiquityassessment.data.repositories.ProductsRepository
 import com.masi.mobiquityassessment.data.responses.Event
-import com.masi.mobiquityassessment.data.responses.ProductSalesReponse
+import com.masi.mobiquityassessment.data.responses.ProductSalesResponse
 import com.masi.mobiquityassessment.data.responses.Products
 import com.masi.mobiquityassessment.data.responses.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,8 +20,8 @@ class ListViewModel @Inject constructor(
 
     private val _selectedProduct = MutableLiveData<Products>()
     val selectedProduct: LiveData<Products> = _selectedProduct
-    private val _products = MutableLiveData<Event<Resource<List<ProductSalesReponse>>>>()
-    val products: MutableLiveData<Event<Resource<List<ProductSalesReponse>>>> = _products
+    private val _products = MutableLiveData<Event<Resource<List<ProductSalesResponse>>>>()
+    val products: MutableLiveData<Event<Resource<List<ProductSalesResponse>>>> = _products
 
     fun getProducts() {
         _products.value = Event(Resource.loading(null))

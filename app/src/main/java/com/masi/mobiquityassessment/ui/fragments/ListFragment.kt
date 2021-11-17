@@ -73,11 +73,10 @@ class ListFragment @Inject constructor(val productsAdapter: ProductsAdapter, var
 
     private fun setupRecyclerView() {
         binding.listRecyclerView.apply {
-            //productsAdapte
-            //productsAdapter.setOnItemClickListener {
-            //    Toast.makeText(context, it.name, Toast.LENGTH_SHORT).show()
-            //viewModel?.selectedProduct.value = it
-            //}
+//            productsAdapter.setOnItemClickListener {
+//                Toast.makeText(context, it.name, Toast.LENGTH_SHORT).show()
+//            viewModel?.selectedProduct.value = it
+//            }
             adapter = productsAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }

@@ -4,17 +4,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
-import com.masi.mobiquityassessment.data.responses.ProductSalesReponse
-import com.masi.mobiquityassessment.data.responses.Products
+import com.masi.mobiquityassessment.data.responses.ProductSalesResponse
 import com.masi.mobiquityassessment.databinding.ParentRecyclerViewBinding
 import javax.inject.Inject
 
 class ProductsAdapter @Inject constructor(private val glide: RequestManager) : RecyclerView.Adapter<ProductsAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(val viewDataBinding: ParentRecyclerViewBinding) :
-        RecyclerView.ViewHolder(viewDataBinding.root)
+        RecyclerView.ViewHolder(viewDataBinding.root){
+            private val clickListener: TaskListRecyclerviewClickInterface? = null
 
-    private var products: ArrayList<ProductSalesReponse> = ArrayList()
+        }
+
+    private var products: ArrayList<ProductSalesResponse> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductsAdapter.MyViewHolder {
         val binding =
@@ -26,6 +28,7 @@ class ProductsAdapter @Inject constructor(private val glide: RequestManager) : R
        holder.viewDataBinding.section.text= products[position].name
         holder.viewDataBinding.childRecyclerView.apply {
             adapter = ChildAdapter(products[position].products, glide)
+
         }
     }
 
@@ -33,9 +36,14 @@ class ProductsAdapter @Inject constructor(private val glide: RequestManager) : R
        return products.size
     }
 
-    fun submitList(products: List<ProductSalesReponse>) {
+    fun submitList(products: List<ProductSalesResponse>) {
         this.products.clear()
         this.products.addAll(products)
         notifyDataSetChanged()
     }
+
+    interface TaskListRecyclerviewClickInterface {
+        fun onItemClicked(position: Int, tag: String?)
+    }
+
 }

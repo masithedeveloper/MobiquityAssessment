@@ -3,7 +3,7 @@ package com.masi.mobiquityassessment.data.repositories
 import com.masi.mobiquityassessment.data.IMobiquityAPI
 import com.masi.mobiquityassessment.data.responses.Constants.NO_INTERNET
 import com.masi.mobiquityassessment.data.responses.Constants.SOMETHING_WENT_WRONG
-import com.masi.mobiquityassessment.data.responses.ProductSalesReponse
+import com.masi.mobiquityassessment.data.responses.ProductSalesResponse
 import com.masi.mobiquityassessment.data.responses.Resource
 import javax.inject.Inject
 
@@ -13,7 +13,7 @@ class ProductsRepository @Inject constructor(private val mobiquityAPI: IMobiquit
     /**
      * Get products
      */
-    override suspend fun getProducts(): Resource<List<ProductSalesReponse>> {
+    override suspend fun getProducts(): Resource<List<ProductSalesResponse>> {
         return try {
             val response = mobiquityAPI.getProducts()
             if (response.isSuccessful) {

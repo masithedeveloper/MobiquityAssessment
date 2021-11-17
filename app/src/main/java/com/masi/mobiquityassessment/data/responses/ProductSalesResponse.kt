@@ -2,7 +2,7 @@ package com.masi.mobiquityassessment.data.responses
 
 import com.google.gson.annotations.SerializedName
 
-data class ProductSalesReponse (
+data class ProductSalesResponse (
 	@SerializedName("id") val id : Int,
 	@SerializedName("name") val name : String,
 	@SerializedName("description") val description : String,

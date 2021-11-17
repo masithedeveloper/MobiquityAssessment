@@ -6,14 +6,17 @@ import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.RequestManager
+import com.masi.mobiquityassessment.BuildConfig
 import com.masi.mobiquityassessment.R
 import com.masi.mobiquityassessment.databinding.FragmentDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DetailFragment @Inject constructor() : Fragment(R.layout.fragment_detail){
+class DetailFragment @Inject constructor(private val glide: RequestManager) : Fragment(R.layout.fragment_detail){
 
     lateinit var viewModel: ListViewModel
 
@@ -33,11 +36,26 @@ class DetailFragment @Inject constructor() : Fragment(R.layout.fragment_detail){
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(ListViewModel::class.java)
         subscribeToObservers()
+
+        binding.backToList.setOnClickListener {
+            handleBackNavigation()
+        }
     }
 
     private fun subscribeToObservers() {
-        viewModel?.products?.observe(viewLifecycleOwner) {
-            Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+        viewModel?.selectedProduct?.observe(viewLifecycleOwner) {
+            binding.productName.text = it.name
+            glide.load(BuildConfig.BASE_URL+it.url)?.into(binding.ivThumb)
+            binding.thePriceOfProduct.text = it.salePrice.currency +" "+ it.salePrice.amount
         }
+    }
+
+    private fun handleBackNavigation() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().popBackStack()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(callback)
     }
 }
