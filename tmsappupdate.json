@@ -1,5 +1,5 @@
 {
-  "updateApkUrl":"https://github.com/masithedeveloper/MobiquityAssessment/raw/main/app-debug.apk",
+  "updateApkUrl":"https://raw.githubusercontent.com/masithedeveloper/MobiquityAssessment/main/app-debug.apk",
   "versionCode":4,
   "versionName":4.0.0,
   "changeLog":"TMS Driver Update Prototype"
